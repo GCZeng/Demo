@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Demo</string>
+    <string name="tab_layout_under_line">TabLayout下划线</string>
+</resources>

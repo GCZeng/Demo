@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="menu">
+        <item>@string/tab_layout_under_line</item>
+    </string-array>
+
+    <string-array name="tab_layout_menu">
+        <item>tab1</item>
+        <item>tabtab2</item>
+        <item>tab3</item>
+        <item>tab4</item>
+        <item>tabtabtabtabtab5</item>
+    </string-array>
+</resources>

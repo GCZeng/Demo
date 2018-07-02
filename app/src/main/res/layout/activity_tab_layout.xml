@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <zgc.org.demo.widget.CustomTabLayout
+        android:id="@+id/ctl_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabIndicatorHeight="2dp"
+        app:tabIndicatorWidth="30dp"
+        app:tabSelectTextColor="@color/colorPrimary"
+        app:tabTextColor="#999999"
+        app:tabTextSize="6sp"
+        app:tab_Mode="mode_scrollable" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="@dimen/dp_10"
+        android:textSize="50sp"
+        tools:text="content" />
+</LinearLayout>

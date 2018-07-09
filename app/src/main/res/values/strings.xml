@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Demo</string>
     <string name="tab_layout_under_line">TabLayout下划线</string>
+    <string name="gson_map_transform">Gson(Map转换int变double问题)</string>
+    <string name="gson_map_source">原文:%s</string>
+    <string name="gson_map_transform_default">默认转换:%s</string>
+    <string name="gson_map_transform_custom">自定义转换:%s</string>
 </resources>

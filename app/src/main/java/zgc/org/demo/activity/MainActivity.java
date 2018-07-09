@@ -1,5 +1,6 @@
 package zgc.org.demo.activity;
 
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,6 +14,7 @@ import butterknife.BindView;
 import zgc.org.demo.R;
 import zgc.org.demo.activity.base.BaseActivity;
 import zgc.org.demo.adapter.MenuAdapter;
+import zgc.org.demo.adapter.decoration.CustomItemDecoration;
 
 public class MainActivity extends BaseActivity {
     @BindView(R.id.rv_menu)
@@ -21,6 +23,8 @@ public class MainActivity extends BaseActivity {
     private String[] titles = null;
     private List<String> mMenuList = null;
     private MenuAdapter mMenuAdapter = null;
+
+    private Bundle mBundle = new Bundle();
 
     @Override
     protected int provideContentViewId() {
@@ -40,15 +44,21 @@ public class MainActivity extends BaseActivity {
         mMenuAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                mBundle.clear();
+                mBundle.putString("title", mMenuList.get(position));
                 switch (position) {
                     case 0:
-                        gotoActivity(TabLayoutActivity.class);
+                        gotoActivity(TabLayoutActivity.class, mBundle);
+                        break;
+                    case 1:
+                        gotoActivity(GsonTransformActivity.class, mBundle);
                         break;
                 }
             }
         });
 
         rvMenu.setLayoutManager(new LinearLayoutManager(this));
+        rvMenu.addItemDecoration(new CustomItemDecoration());
         rvMenu.setAdapter(mMenuAdapter);
     }
 

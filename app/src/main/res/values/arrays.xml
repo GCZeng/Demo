@@ -2,6 +2,7 @@
 <resources>
     <string-array name="menu">
         <item>@string/tab_layout_under_line</item>
+        <item>@string/gson_map_transform</item>
     </string-array>
 
     <string-array name="tab_layout_menu">

@@ -3,6 +3,8 @@ package zgc.org.demo.app;
 import android.app.Application;
 import android.content.Context;
 
+import zgc.org.demo.util.LogUtil;
+
 /**
  * Author:Nick
  * Time2018/7/2 12:15
@@ -15,5 +17,7 @@ public class APP extends Application {
     public void onCreate() {
         super.onCreate();
         sContext = this;
+
+        LogUtil.init();
     }
 }

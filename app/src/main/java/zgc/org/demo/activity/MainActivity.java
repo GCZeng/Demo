@@ -53,6 +53,12 @@ public class MainActivity extends BaseActivity {
                     case 1:
                         gotoActivity(GsonTransformActivity.class, mBundle);
                         break;
+                    case 2:
+                        gotoActivity(NotificationTipActivity.class, mBundle);
+                        break;
+                    case 3:
+                        gotoActivity(SudokuHelperActivity.class, mBundle);
+                        break;
                 }
             }
         });

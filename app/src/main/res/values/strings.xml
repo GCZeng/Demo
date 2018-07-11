@@ -5,4 +5,7 @@
     <string name="gson_map_source">原文:%s</string>
     <string name="gson_map_transform_default">默认转换:%s</string>
     <string name="gson_map_transform_custom">自定义转换:%s</string>
+    <string name="notification_tip">通知提示</string>
+    <string name="send_notification">发送通知</string>
+    <string name="sudoku_helper">数独助手</string>
 </resources>

@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="zgc.org.demo">
 
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+
     <application
         android:name=".app.APP"
         android:allowBackup="true"
@@ -19,6 +22,8 @@
         </activity>
         <activity android:name=".activity.TabLayoutActivity" />
         <activity android:name=".activity.GsonTransformActivity" />
+        <activity android:name=".activity.NotificationTipActivity" />
+        <activity android:name=".activity.SudokuHelperActivity" />
     </application>
 
 </manifest>

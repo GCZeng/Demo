@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white">
+    android:padding="@dimen/dp_10">
 
     <TextView
-        android:id="@+id/tv_title"
+        android:id="@+id/tv_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical|left"
+        android:background="@android:color/white"
         android:padding="@dimen/dp_10"
-        android:textSize="@dimen/sp_16"
-        tools:text="Item" />
+        android:text="通知" />
 
 </android.support.constraint.ConstraintLayout>

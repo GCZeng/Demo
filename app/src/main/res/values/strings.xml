@@ -8,4 +8,5 @@
     <string name="notification_tip">通知提示</string>
     <string name="send_notification">发送通知</string>
     <string name="sudoku_helper">数独助手</string>
+    <string name="rollback">回退</string>
 </resources>

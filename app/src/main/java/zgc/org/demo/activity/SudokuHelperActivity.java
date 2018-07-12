@@ -1,27 +1,24 @@
 package zgc.org.demo.activity;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import java.util.Arrays;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
+import butterknife.OnClick;
 import zgc.org.demo.R;
 import zgc.org.demo.activity.base.BaseActivity;
+import zgc.org.demo.bean.SudokuData;
 import zgc.org.demo.util.LogUtil;
+import zgc.org.demo.widget.SudokuEditText;
 
 /**
  * Author:Nick
@@ -32,8 +29,11 @@ public class SudokuHelperActivity extends BaseActivity {
     @BindView(R.id.ll_content)
     LinearLayout llContent;
 
-    private int[][] arrays = new int[9][9];
+    private Integer[][] arrays = new Integer[9][9];
     private EditText[][] editTexts = new EditText[9][9];
+
+    private List<String> list = new ArrayList<>();
+    private SudokuData mSudokuData = null;
 
     @Override
     protected int provideContentViewId() {
@@ -43,12 +43,23 @@ public class SudokuHelperActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        mSudokuData = new SudokuData();
+
         for (int i = 0; i < 9; i++) {
             LinearLayout linearLayout = new LinearLayout(this);
             for (int j = 0; j < 9; j++) {
                 LinearLayout view = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.soduku_input_item, linearLayout, true);
-                EditText editText = (EditText) view.getChildAt(j);
-                editText.addTextChangedListener(textWatcher);
+                SudokuEditText editText = (SudokuEditText) view.getChildAt(j);
+                editText.setTag(i + "," + j);
+                editText.setCallback(new SudokuEditText.Callback() {
+                    @Override
+                    public void refresh(int i, int j) {
+                        tip(i, j);
+                        mSudokuData.getData().add(arrays);
+                        Gson gson = new Gson();
+                        list.add(gson.toJson(mSudokuData));
+                    }
+                });
                 editTexts[i][j] = editText;
             }
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -58,58 +69,59 @@ public class SudokuHelperActivity extends BaseActivity {
         refresh();
     }
 
+    @OnClick({R.id.btn_rollback})
+    void click(View view) {
+        switch (view.getId()) {
+            case R.id.btn_rollback:
+                roolback(list.get(list.size() - 1));
+                break;
+        }
+    }
+
+    private void roolback(String json) {
+        Gson gson = new Gson();
+        SudokuData sudokuData = gson.fromJson(json, SudokuData.class);
+        List<Integer[][]> data = sudokuData.getData();
+
+        if (data.size() > 1) {
+            Integer[][] array = data.get(data.size() - 2);
+
+            LogUtil.d(gson.toJson(array));
+            this.arrays = array;
+            refresh();
+        }
+
+    }
 
     @Override
     public void initData() {
 
     }
 
-    private TextWatcher textWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            refresh();
-        }
-    };
-
     private void refresh() {
         for (int i = 0; i < llContent.getChildCount(); i++) {
             LinearLayout linearLayout = (LinearLayout) llContent.getChildAt(i);
             for (int j = 0; j < linearLayout.getChildCount(); j++) {
-                arrays[i][j] = getNum((EditText) linearLayout.getChildAt(j));
-
-                if (arrays[i][j] == 0) {
-                    String tempStr = "123456789";
-                    EditText editText = editTexts[i][j];
-                    tempStr = calcH(i, tempStr);
-                    tempStr = calcV(j, tempStr);
-                    tempStr = calcRound(i, j, tempStr);
-                    if(tempStr.length()==1){
-                        editText.setText(tempStr);
-                    }else {
-                        editText.setHint(tempStr);
-                    }
-                }
+                tip(i, j);
             }
         }
     }
 
-    private String calcRound(int iI, int jI, String hintStr) {
-        int tI = iI + 1;
-        int tJ = jI + 1;
+    private void tip(int i, int j) {
+        for (int t = 0; t < 9; t++) {
+            calc(i, t);
+            calc(t, j);
+        }
+        tipRound(i, j);
+    }
 
-        if (tI > 3) {
+    private void tipRound(int iI, int jI) {
+        int tI = iI;
+        int tJ = jI;
+
+        if (tI > 2) {
             while (true) {
-                if (tI > 3) {
+                if (tI > 2) {
                     tI -= 3;
                 } else {
                     break;
@@ -117,9 +129,9 @@ public class SudokuHelperActivity extends BaseActivity {
             }
         }
 
-        if (tJ > 3) {
+        if (tJ > 2) {
             while (true) {
-                if (tJ > 3) {
+                if (tJ > 2) {
                     tJ -= 3;
                 } else {
                     break;
@@ -128,16 +140,63 @@ public class SudokuHelperActivity extends BaseActivity {
         }
 
 
-        int i = iI - tI + 1;
-        if (i < 0) {
-            i = 0;
+        int i = (iI - tI) < 0 ? 0 : (iI - tI);
+        int j = (jI - tJ) < 0 ? 0 : (jI - tJ);
+        int iLen = i + 3;
+        int jLen = j + 3;
+
+        for (; i < iLen; i++) {
+            for (; j < jLen; j++) {
+                calc(i, j);
+            }
+            j -= 3;
         }
-        int j = jI - tJ + 1;
-        if (j < 0) {
-            j = 0;
+    }
+
+    private void calc(int i, int j) {
+        arrays[i][j] = getNum(editTexts[i][j]);
+
+        if (arrays[i][j] == 0) {
+            String tempStr = "123456789";
+            EditText editText = editTexts[i][j];
+            tempStr = calcH(i, tempStr);
+            tempStr = calcV(j, tempStr);
+            tempStr = calcRound(i, j, tempStr);
+            if (tempStr.length() == 1) {
+                editText.setText(tempStr);
+            } else {
+                editText.setHint(tempStr);
+            }
+        }
+    }
+
+    private String calcRound(int iI, int jI, String hintStr) {
+        int tI = iI;
+        int tJ = jI;
+
+        if (tI > 2) {
+            while (true) {
+                if (tI > 2) {
+                    tI -= 3;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        if (tJ > 2) {
+            while (true) {
+                if (tJ > 2) {
+                    tJ -= 3;
+                } else {
+                    break;
+                }
+            }
         }
 
 
+        int i = (iI - tI) < 0 ? 0 : (iI - tI);
+        int j = (jI - tJ) < 0 ? 0 : (jI - tJ);
         int iLen = i + 3;
         int jLen = j + 3;
 
@@ -177,10 +236,8 @@ public class SudokuHelperActivity extends BaseActivity {
 
     private int getNum(EditText editText) {
         if (TextUtils.isEmpty(editText.getText())) {
-            editText.setTextSize(TypedValue.COMPLEX_UNIT_SP,8);
             return 0;
         }
-        editText.setTextSize(TypedValue.COMPLEX_UNIT_SP,8);
         return Integer.parseInt(editText.getText().toString());
     }
 

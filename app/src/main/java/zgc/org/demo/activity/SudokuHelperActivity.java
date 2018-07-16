@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,8 @@ public class SudokuHelperActivity extends BaseActivity {
     private List<String> list = new ArrayList<>();
     private SudokuData mSudokuData = null;
 
+    private List<Integer> mDataList = null;
+
     @Override
     protected int provideContentViewId() {
         return R.layout.activity_sudoku_helper;
@@ -55,9 +58,20 @@ public class SudokuHelperActivity extends BaseActivity {
                     @Override
                     public void refresh(int i, int j) {
                         tip(i, j);
-                        mSudokuData.getData().add(arrays);
+
                         Gson gson = new Gson();
-                        list.add(gson.toJson(mSudokuData));
+                        if (mDataList == null) {
+                            mDataList = new ArrayList<>();
+                        } else {
+                            mDataList.clear();
+                        }
+                        for (int tI = 0; tI < 9; tI++) {
+                            for (int tJ = 0; tJ < 9; tJ++) {
+                                mDataList.add(arrays[tI][tJ]);
+                            }
+                        }
+
+                        list.add(gson.toJson(mDataList));
                     }
                 });
                 editTexts[i][j] = editText;
@@ -73,24 +87,36 @@ public class SudokuHelperActivity extends BaseActivity {
     void click(View view) {
         switch (view.getId()) {
             case R.id.btn_rollback:
-                roolback(list.get(list.size() - 1));
+                roolback();
                 break;
         }
     }
 
-    private void roolback(String json) {
-        Gson gson = new Gson();
-        SudokuData sudokuData = gson.fromJson(json, SudokuData.class);
-        List<Integer[][]> data = sudokuData.getData();
+    private void roolback() {
+        if (list.size() > 1) {
+            Gson gson = new Gson();
 
-        if (data.size() > 1) {
-            Integer[][] array = data.get(data.size() - 2);
+            String json = list.get(list.size() - 2);
 
-            LogUtil.d(gson.toJson(array));
-            this.arrays = array;
+            List<Integer> list = gson.fromJson(json, new TypeToken<List<Integer>>() {
+            }.getType());
+
+            list.remove(list.size() - 1);
+
+            int listIndex = 0;
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    arrays[i][j] = list.get(listIndex++);
+                    if (arrays[i][j] != 0) {
+                        editTexts[i][j].setText(arrays[i][j] + "");
+                    } else {
+                        editTexts[i][j].setText("");
+                    }
+                }
+            }
+
             refresh();
         }
-
     }
 
     @Override

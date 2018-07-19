@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:name=".app.APP"
@@ -24,6 +27,18 @@
         <activity android:name=".activity.GsonTransformActivity" />
         <activity android:name=".activity.NotificationTipActivity" />
         <activity android:name=".activity.SudokuHelperActivity" />
+        <activity android:name=".activity.AndroidAPKInstallActivity" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="zgc.org.demo.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
     </application>
 
 </manifest>

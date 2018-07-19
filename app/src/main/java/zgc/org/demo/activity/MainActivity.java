@@ -59,6 +59,9 @@ public class MainActivity extends BaseActivity {
                     case 3:
                         gotoActivity(SudokuHelperActivity.class, mBundle);
                         break;
+                    case 4:
+                        gotoActivity(AndroidAPKInstallActivity.class, mBundle);
+                        break;
                 }
             }
         });

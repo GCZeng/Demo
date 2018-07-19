@@ -9,4 +9,6 @@
     <string name="send_notification">发送通知</string>
     <string name="sudoku_helper">数独助手</string>
     <string name="rollback">回退</string>
+    <string name="android_install_adaptive">Android8.0安装权限适配</string>
+    <string name="update_app">更新应用</string>
 </resources>

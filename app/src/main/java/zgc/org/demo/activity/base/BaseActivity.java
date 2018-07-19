@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -37,6 +38,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         mUnBinder = ButterKnife.bind(this);
 
+        if (!TextUtils.isEmpty(getIntent().getStringExtra("title"))) {
+            setTitle(getIntent().getStringExtra("title"));
+        }
 
         initView();
         initData();

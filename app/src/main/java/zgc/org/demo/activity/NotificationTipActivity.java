@@ -1,7 +1,9 @@
 package zgc.org.demo.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -25,6 +27,11 @@ import zgc.org.demo.activity.base.BaseActivity;
  * Description 通知提示
  */
 public class NotificationTipActivity extends BaseActivity {
+    private NotificationManager manager = null;
+
+    final String CHANNEL_ID = "channel_id_1";
+    final String CHANNEL_NAME = "channel_name_1";
+
     @Override
     protected int provideContentViewId() {
         return R.layout.activity_notification_tip;
@@ -39,75 +46,34 @@ public class NotificationTipActivity extends BaseActivity {
     void click(View view) {
         switch (view.getId()) {
             case R.id.btn_send_notification:
-//                NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//                Notification notification = new NotificationCompat.Builder(this)
-//                        .setVisibility(Notification.VISIBILITY_PRIVATE)
-//                        .setSmallIcon(R.mipmap.ic_launcher)
-//                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-//                        .setFullScreenIntent(PendingIntent.getActivity(this, 0, new Intent(this, GsonTransformActivity.class), 0), false)
-//                        .setContentTitle("标题").setContentText("内容").build();
-//                manager.notify(1, notification);
-                createFloatView("这里是通知" + System.currentTimeMillis());
+
+                NotificationCompat.Builder builder= new NotificationCompat.Builder(this,CHANNEL_ID);
+
+
+                builder.setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle("通知标题")
+                        .setContentText("通知内容")
+                        .setAutoCancel(true);
+
+                manager.notify(10, builder.build());
+
+
                 break;
         }
     }
 
     @Override
     public void initData() {
-        initWindowManager();
-    }
+        manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-    private View view;
-    private WindowManager wm;
-    private boolean showWm = true;//默认是应该显示悬浮通知栏
-    private WindowManager.LayoutParams params;
-
-    private void initWindowManager() {
-        wm = (WindowManager) getApplicationContext().getSystemService(
-                Context.WINDOW_SERVICE);
-        params = new WindowManager.LayoutParams();
-        //注意是TYPE_SYSTEM_ERROR而不是TYPE_SYSTEM_ALERT
-        //前面有SYSTEM才可以遮挡状态栏，不然的话只能在状态栏下显示通知栏
-        params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
-        params.format = PixelFormat.TRANSPARENT;
-        //设置必须触摸通知栏才可以关掉
-        params.flags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
-                | WindowManager.LayoutParams.FLAG_FULLSCREEN
-                | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
-
-        // 设置通知栏的长和宽
-        params.width = wm.getDefaultDisplay().getWidth();
-        params.height = 200;
-        params.gravity = Gravity.TOP;
-    }
-
-
-    private void createFloatView(String str) {
-
-        view = LayoutInflater.from(this).inflate(R.layout.notification_tip_item, null);
-        //在这里你可以解析你的自定义的布局成一个View
-        if (showWm) {
-            wm.addView(view, params);
-            showWm = false;
-        } else {
-            wm.updateViewLayout(view, params);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            //只在Android O之上需要渠道
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID,
+                    CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
+            //如果这里用IMPORTANCE_NOENE就需要在系统的设置里面开启渠道，
+            //通知才能正常弹出
+            manager.createNotificationChannel(notificationChannel);
         }
-
-
-        view.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        wm.removeViewImmediate(view);
-                        view = null;
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-
-                        break;
-                }
-                return true;
-            }
-        });
-
     }
+
 }

@@ -28,6 +28,8 @@
         <activity android:name=".activity.NotificationTipActivity" />
         <activity android:name=".activity.SudokuHelperActivity" />
         <activity android:name=".activity.AndroidAPKInstallActivity" />
+        <activity android:name=".activity.KeyboardSwitchActivity" />
+        <activity android:name=".activity.RxBusActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

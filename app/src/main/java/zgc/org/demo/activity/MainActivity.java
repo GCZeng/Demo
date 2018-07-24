@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import java.security.Key;
 import java.util.Arrays;
 import java.util.List;
 
@@ -61,6 +62,12 @@ public class MainActivity extends BaseActivity {
                         break;
                     case 4:
                         gotoActivity(AndroidAPKInstallActivity.class, mBundle);
+                        break;
+                    case 5:
+                        gotoActivity(KeyboardSwitchActivity.class, mBundle);
+                        break;
+                    case 6:
+                        gotoActivity(RxBusActivity.class, mBundle);
                         break;
                 }
             }

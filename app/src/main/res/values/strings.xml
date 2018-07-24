@@ -11,4 +11,6 @@
     <string name="rollback">回退</string>
     <string name="android_install_adaptive">Android8.0安装权限适配</string>
     <string name="update_app">更新应用</string>
+    <string name="keyboard_switch">键盘切换</string>
+    <string name="rxbus">RxBus</string>
 </resources>

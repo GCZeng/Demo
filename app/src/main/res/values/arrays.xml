@@ -6,6 +6,8 @@
         <item>@string/notification_tip</item>
         <item>@string/sudoku_helper</item>
         <item>@string/android_install_adaptive</item>
+        <item>@string/keyboard_switch</item>
+        <item>@string/rxbus</item>
     </string-array>
 
     <string-array name="tab_layout_menu">

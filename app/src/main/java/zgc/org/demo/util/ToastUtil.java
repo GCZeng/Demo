@@ -15,27 +15,27 @@ public class ToastUtil {
     }
 
     public static void showShort( CharSequence message) {
-        Toast.makeText(APP.sContext, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(APP.getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     public static void showShort( int message) {
-        Toast.makeText(APP.sContext, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(APP.getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     public static void showLong( CharSequence message) {
-        Toast.makeText(APP.sContext, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(APP.getContext(), message, Toast.LENGTH_LONG).show();
     }
 
     public static void showLong( int message) {
-        Toast.makeText(APP.sContext, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(APP.getContext(), message, Toast.LENGTH_LONG).show();
     }
 
     public static void show( CharSequence message, int duration) {
-        Toast.makeText(APP.sContext, message, duration).show();
+        Toast.makeText(APP.getContext(), message, duration).show();
     }
 
     public static void show( int message, int duration) {
-        Toast.makeText(APP.sContext, message, duration).show();
+        Toast.makeText(APP.getContext(), message, duration).show();
     }
 
 

@@ -11,13 +11,21 @@ import zgc.org.demo.util.LogUtil;
  * Description
  */
 public class APP extends Application {
-    public static Context sContext;
+    private static Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        sContext = this.getApplicationContext();
+        setContext(this.getApplicationContext());
 
         LogUtil.init();
+    }
+
+    public static void setContext(Context context) {
+        APP.context = context;
+    }
+
+    public static Context getContext() {
+        return context;
     }
 }

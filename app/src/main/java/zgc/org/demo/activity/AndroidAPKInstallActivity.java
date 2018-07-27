@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 
 import butterknife.OnClick;
@@ -112,7 +113,9 @@ public class AndroidAPKInstallActivity extends BaseActivity {
                 default:
                     break;
             }
-        } else {
+        }
+
+        if (resultCode == Activity.RESULT_CANCELED) {
             switch (requestCode) {
                 case INSTALL_APK_STATE:
                     ToastUtil.showShort("用户取消了安装");

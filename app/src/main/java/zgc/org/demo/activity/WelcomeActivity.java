@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import butterknife.BindView;
 import zgc.org.demo.R;
 import zgc.org.demo.activity.base.BaseActivity;
+import zgc.org.demo.util.LogUtil;
+import zgc.org.demo.util.rx.RxCountDown;
 
 /**
  * Author:Nick
@@ -57,7 +59,11 @@ public class WelcomeActivity extends BaseActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                handler.sendEmptyMessageDelayed(1, 1000);
+//                handler.sendEmptyMessageDelayed(1, 1000);
+                RxCountDown.countDown(2, () -> {
+                    gotoActivity(MainActivity.class);
+                    finish();
+                });
             }
 
             @Override
@@ -68,11 +74,11 @@ public class WelcomeActivity extends BaseActivity {
     }
 
 
-    private Handler handler = new Handler(msg -> {
-        gotoActivity(MainActivity.class);
-        finish();
-        return false;
-    });
+//    private Handler handler = new Handler(msg -> {
+//        gotoActivity(MainActivity.class);
+//        finish();
+//        return false;
+//    });
 
 
     @Override

@@ -13,4 +13,6 @@
     <string name="update_app">更新应用</string>
     <string name="keyboard_switch">键盘切换</string>
     <string name="rxbus">RxBus</string>
+    <string name="lh_display_adaptive">刘海屏适配</string>
+    <string name="permission_requset">权限申请</string>
 </resources>

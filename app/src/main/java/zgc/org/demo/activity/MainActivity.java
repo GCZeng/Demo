@@ -1,9 +1,13 @@
 package zgc.org.demo.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.DisplayCutout;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -34,7 +38,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
     }
 
     @Override
@@ -42,34 +45,37 @@ public class MainActivity extends BaseActivity {
         titles = getResources().getStringArray(R.array.menu);
         mMenuList = Arrays.asList(titles);
         mMenuAdapter = new MenuAdapter(mMenuList);
-        mMenuAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                mBundle.clear();
-                mBundle.putString("title", mMenuList.get(position));
-                switch (position) {
-                    case 0:
-                        gotoActivity(TabLayoutActivity.class, mBundle);
-                        break;
-                    case 1:
-                        gotoActivity(GsonTransformActivity.class, mBundle);
-                        break;
-                    case 2:
-                        gotoActivity(NotificationTipActivity.class, mBundle);
-                        break;
-                    case 3:
-                        gotoActivity(SudokuHelperActivity.class, mBundle);
-                        break;
-                    case 4:
-                        gotoActivity(AndroidAPKInstallActivity.class, mBundle);
-                        break;
-                    case 5:
-                        gotoActivity(KeyboardSwitchActivity.class, mBundle);
-                        break;
-                    case 6:
-                        gotoActivity(RxBusActivity.class, mBundle);
-                        break;
-                }
+        mMenuAdapter.setOnItemClickListener((adapter, view, position) -> {
+            mBundle.clear();
+            mBundle.putString("title", mMenuList.get(position));
+            switch (position) {
+                case 0:
+                    gotoActivity(TabLayoutActivity.class, mBundle);
+                    break;
+                case 1:
+                    gotoActivity(GsonTransformActivity.class, mBundle);
+                    break;
+                case 2:
+                    gotoActivity(NotificationTipActivity.class, mBundle);
+                    break;
+                case 3:
+                    gotoActivity(SudokuHelperActivity.class, mBundle);
+                    break;
+                case 4:
+                    gotoActivity(AndroidAPKInstallActivity.class, mBundle);
+                    break;
+                case 5:
+                    gotoActivity(KeyboardSwitchActivity.class, mBundle);
+                    break;
+                case 6:
+                    gotoActivity(RxBusActivity.class, mBundle);
+                    break;
+                case 7:
+                    gotoActivity(LHDisplayActivity.class, mBundle);
+                    break;
+                case 8:
+                    gotoActivity(PermissionRequestActivity.class, mBundle);
+                    break;
             }
         });
 

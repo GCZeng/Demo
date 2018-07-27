@@ -10,11 +10,7 @@ import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.view.View;
 
-import com.tbruyelle.rxpermissions2.Permission;
-import com.tbruyelle.rxpermissions2.RxPermissions;
-
 import butterknife.OnClick;
-import io.reactivex.functions.Consumer;
 import zgc.org.demo.R;
 import zgc.org.demo.activity.base.BaseActivity;
 import zgc.org.demo.util.FileUtil;
@@ -34,6 +30,8 @@ public class AndroidAPKInstallActivity extends BaseActivity {
 
     private Uri uri = null;
 
+    private int count = 0;
+
     private final static int REQUEST_INSTALL_APK = 10001;
 
     @Override
@@ -50,17 +48,14 @@ public class AndroidAPKInstallActivity extends BaseActivity {
     void click(View view) {
         switch (view.getId()) {
             case R.id.btn_update:
-                addDisposable(PermissionUtil.requestEachCombined(this, new Consumer<Permission>() {
-                    @Override
-                    public void accept(Permission permission) {
-                        if (permission.granted) {
-                            installProcess(FileUtil.copyAssetsFile(AndroidAPKInstallActivity.this, "app-debug.apk", Environment.getExternalStorageDirectory().getPath()));
-                        } else if (permission.shouldShowRequestPermissionRationale) {
-                            ToastUtil.showShort("请授予存储权限");
-                        } else {
-                            ToastUtil.showShort("请授予存储权限");
-                            PermissionUtil.openAppSetting(AndroidAPKInstallActivity.this);
-                        }
+                addDisposable(PermissionUtil.requestEachCombined(this, permission -> {
+                    if (permission.granted) {
+                        installProcess(FileUtil.copyAssetsFile(AndroidAPKInstallActivity.this, "app-debug.apk", Environment.getExternalStorageDirectory().getPath()));
+                    } else if (permission.shouldShowRequestPermissionRationale) {
+                        ToastUtil.showShort("请授予存储权限"+count++);
+                    } else {
+                        ToastUtil.showShort("请授予存储权限"+count++);
+                        PermissionUtil.openAppSetting(AndroidAPKInstallActivity.this);
                     }
                 }, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE));
                 break;
@@ -71,6 +66,7 @@ public class AndroidAPKInstallActivity extends BaseActivity {
     public void initData() {
 
     }
+
 
     private void installProcess(Uri uri) {
         boolean haveInstallPermission;
@@ -124,4 +120,6 @@ public class AndroidAPKInstallActivity extends BaseActivity {
             }
         }
     }
+
+
 }

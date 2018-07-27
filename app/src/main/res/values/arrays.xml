@@ -8,6 +8,8 @@
         <item>@string/android_install_adaptive</item>
         <item>@string/keyboard_switch</item>
         <item>@string/rxbus</item>
+        <item>@string/lh_display_adaptive</item>
+        <item>@string/permission_requset</item>
     </string-array>
 
     <string-array name="tab_layout_menu">

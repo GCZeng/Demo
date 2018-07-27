@@ -23,8 +23,6 @@ public class WelcomeActivity extends BaseActivity {
 
     private Animation welcome_alpha;//动画
 
-    private int type = -1;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 //        requestWindowFeature(Window.FEATURE_NO_TITLE);// 隐藏标题
@@ -40,9 +38,6 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     protected void initView() {
         welcome_alpha = new AnimationUtils().loadAnimation(this, R.anim.welcome_alpha);
-        type = getIntent().getIntExtra("type", -1);
-
-
     }
 
     @Override

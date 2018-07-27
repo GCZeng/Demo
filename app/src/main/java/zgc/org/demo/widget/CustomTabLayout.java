@@ -44,23 +44,23 @@ public class CustomTabLayout extends FrameLayout {
         init(context, null);
     }
 
-    public CustomTabLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public CustomTabLayout(@NonNull Context context,  AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public CustomTabLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CustomTabLayout(@NonNull Context context,  AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public CustomTabLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public CustomTabLayout(@NonNull Context context,  AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs);
     }
 
-    private void readAttr(Context context, AttributeSet attrs) {
+    private void readAttr(@NonNull Context context,  AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CustomTabLayout);
         mSelectIndicatorColor = typedArray.getColor(R.styleable.CustomTabLayout_tabIndicatorColor, context.getResources().getColor(R.color.colorAccent));
         mUnSelectTextColor = typedArray.getColor(R.styleable.CustomTabLayout_tabTextColor, Color.parseColor("#666666"));
@@ -170,26 +170,28 @@ public class CustomTabLayout extends FrameLayout {
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
             mViewPager.setCurrentItem(tab.getPosition());
-            CustomTabLayout mTabLayout = mTabLayoutRef.get();
             if (mTabLayoutRef != null) {
-                List<View> customViewList = mTabLayout.getCustomViewList();
-                if (customViewList == null || customViewList.size() == 0) {
-                    return;
-                }
-                for (int i = 0; i < customViewList.size(); i++) {
-                    View view = customViewList.get(i);
-                    if (view == null) {
+                CustomTabLayout mTabLayout = mTabLayoutRef.get();
+                if (mTabLayout != null) {
+                    List<View> customViewList = mTabLayout.getCustomViewList();
+                    if (customViewList == null || customViewList.size() == 0) {
                         return;
                     }
-                    TextView text = (TextView) view.findViewById(R.id.tab_item_text);
-                    View indicator = view.findViewById(R.id.tab_item_indicator);
-                    if (i == tab.getPosition()) { // 选中状态
-                        text.setTextColor(mTabLayout.mSelectTextColor);
-                        indicator.setBackgroundColor(mTabLayout.mSelectIndicatorColor);
-                        indicator.setVisibility(View.VISIBLE);
-                    } else {// 未选中状态
-                        text.setTextColor(mTabLayout.mUnSelectTextColor);
-                        indicator.setVisibility(View.INVISIBLE);
+                    for (int i = 0; i < customViewList.size(); i++) {
+                        View view = customViewList.get(i);
+                        if (view == null) {
+                            return;
+                        }
+                        TextView text = (TextView) view.findViewById(R.id.tab_item_text);
+                        View indicator = view.findViewById(R.id.tab_item_indicator);
+                        if (i == tab.getPosition()) { // 选中状态
+                            text.setTextColor(mTabLayout.mSelectTextColor);
+                            indicator.setBackgroundColor(mTabLayout.mSelectIndicatorColor);
+                            indicator.setVisibility(View.VISIBLE);
+                        } else {// 未选中状态
+                            text.setTextColor(mTabLayout.mUnSelectTextColor);
+                            indicator.setVisibility(View.INVISIBLE);
+                        }
                     }
                 }
             }

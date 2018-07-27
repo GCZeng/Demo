@@ -16,7 +16,7 @@ public class APP extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        sContext = this;
+        sContext = this.getApplicationContext();
 
         LogUtil.init();
     }

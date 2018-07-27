@@ -12,6 +12,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import butterknife.internal.Utils;
+
 /**
  * Author:Nick
  * Time2018/7/19 15:22
@@ -27,25 +29,39 @@ public class FileUtil {
      * @return
      */
     public static Uri copyAssetsFile(Context context, String fileName, String path) {
+        InputStream mInputStream = null;
+        FileOutputStream mFileOutputStream = null;
+        Uri uri = null;
         try {
-            InputStream mInputStream = context.getAssets().open(fileName);
+            mInputStream = context.getAssets().open(fileName);
             File file = new File(path);
             if (!file.exists()) {
-                file.mkdir();
+                try {
+                    file.mkdir();
+                } catch (SecurityException e) {
+                    LogUtil.e(e.getMessage());
+                } catch (NullPointerException e) {
+                    LogUtil.e(e.getMessage());
+                }
             }
             File mFile = new File(path + File.separator + "app-debug.apk");
-            if (!mFile.exists())
-                mFile.createNewFile();
+            if (!mFile.exists()) {
+                try {
+                    mFile.createNewFile();
+                } catch (SecurityException e) {
+                    LogUtil.d(e.getMessage());
+                } catch (NullPointerException e) {
+                    LogUtil.e(e.getMessage());
+                }
+            }
             LogUtil.e("开始拷贝");
-            FileOutputStream mFileOutputStream = new FileOutputStream(mFile);
+            mFileOutputStream = new FileOutputStream(mFile);
             byte[] mbyte = new byte[1024];
             int i = 0;
             while ((i = mInputStream.read(mbyte)) > 0) {
                 mFileOutputStream.write(mbyte, 0, i);
             }
-            mInputStream.close();
-            mFileOutputStream.close();
-            Uri uri = null;
+
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     //包名.fileprovider
@@ -58,13 +74,27 @@ public class FileUtil {
             }
             MediaScannerConnection.scanFile(context, new String[]{mFile.getAbsolutePath()}, null, null);
             LogUtil.e("拷贝完毕：" + uri);
-            return uri;
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.e(e.getMessage());
             LogUtil.e(fileName + "not exists" + "or write err");
-            return null;
         } catch (Exception e) {
-            return null;
+            LogUtil.e(e.getMessage());
+        } finally {
+            if (mInputStream != null) {
+                try {
+                    mInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (mFileOutputStream != null) {
+                try {
+                    mFileOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+        return uri;
     }
 }

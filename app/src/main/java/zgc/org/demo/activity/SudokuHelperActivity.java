@@ -89,6 +89,8 @@ public class SudokuHelperActivity extends BaseActivity {
             case R.id.btn_rollback:
                 roolback();
                 break;
+            default:
+                break;
         }
     }
 

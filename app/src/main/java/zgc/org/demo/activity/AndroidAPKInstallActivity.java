@@ -52,12 +52,14 @@ public class AndroidAPKInstallActivity extends BaseActivity {
                     if (permission.granted) {
                         installProcess(FileUtil.copyAssetsFile(AndroidAPKInstallActivity.this, "app-debug.apk", Environment.getExternalStorageDirectory().getPath()));
                     } else if (permission.shouldShowRequestPermissionRationale) {
-                        ToastUtil.showShort("请授予存储权限"+count++);
+                        ToastUtil.showShort("请授予存储权限" + count++);
                     } else {
-                        ToastUtil.showShort("请授予存储权限"+count++);
+                        ToastUtil.showShort("请授予存储权限" + count++);
                         PermissionUtil.openAppSetting(AndroidAPKInstallActivity.this);
                     }
                 }, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE));
+                break;
+            default:
                 break;
         }
     }

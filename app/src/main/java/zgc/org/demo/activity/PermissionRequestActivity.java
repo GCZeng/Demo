@@ -47,6 +47,8 @@ public class PermissionRequestActivity extends BaseActivity {
             case R.id.btn_permission_request:
                 request();
                 break;
+            default:
+                break;
         }
     }
 

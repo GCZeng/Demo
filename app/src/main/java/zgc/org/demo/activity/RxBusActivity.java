@@ -59,6 +59,8 @@ public class RxBusActivity extends BaseActivity {
             case R.id.btn_send3:
                 RxBus.getDefault().post(new Event3());
                 break;
+            default:
+                break;
         }
     }
 

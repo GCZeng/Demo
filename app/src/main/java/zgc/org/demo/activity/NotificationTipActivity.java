@@ -59,6 +59,8 @@ public class NotificationTipActivity extends BaseActivity {
 
 
                 break;
+            default:
+                break;
         }
     }
 

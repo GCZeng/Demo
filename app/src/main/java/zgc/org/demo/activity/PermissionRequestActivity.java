@@ -2,6 +2,7 @@ package zgc.org.demo.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -33,6 +34,8 @@ public class PermissionRequestActivity extends BaseActivity {
     private int PERMISSIONS_REQUEST_CODE = 1000;
     private int PERMISSIONS_STORAGE_REQUEST_CODE = 1001;
 
+    private AlertDialog dialog = null;
+
     private boolean flag = false;
 
     @Override
@@ -61,6 +64,9 @@ public class PermissionRequestActivity extends BaseActivity {
         super.onResume();
         if (flag) {
             flag = false;
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
             request(1);
         }
     }
@@ -144,14 +150,17 @@ public class PermissionRequestActivity extends BaseActivity {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             request(1);
         } else {
-            new AlertDialog.Builder(PermissionRequestActivity.this)
-                    .setTitle(title)
-                    .setNegativeButton("取消", (dialogInterface, i1) -> finish())
-                    .setPositiveButton("去设置", (dialogInterface, i1) -> {
-                        dialogInterface.dismiss();
-                        flag = true;
-                        PermissionUtil.openAppSetting(PermissionRequestActivity.this);
-                    }).show();
+            if (dialog == null) {
+                dialog = new AlertDialog.Builder(PermissionRequestActivity.this)
+                        .setTitle(title)
+                        .setNegativeButton("取消", (dialogInterface, i1) -> finish())
+                        .setPositiveButton("去设置", (dialogInterface, i1) -> {
+                            dialogInterface.dismiss();
+                            flag = true;
+                            PermissionUtil.openAppSetting(PermissionRequestActivity.this);
+                        }).create();
+            }
+            dialog.show();
         }
     }
 }

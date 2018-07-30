@@ -133,14 +133,22 @@ public class PermissionRequestActivity extends BaseActivity {
             //未授权的
             if (unPermissions.contains(Manifest.permission.READ_EXTERNAL_STORAGE) || unPermissions.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 showCustomPermissionDialog("请授予存储权限");
+            } else {
+                request(1);
             }
         }
 
         if (requestCode == PERMISSIONS_STORAGE_REQUEST_CODE) {
+            boolean flag = true;
             for (int i = 0; i < permissions.length; i++) {
                 if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                    showCustomPermissionDialog("请授予存储权限");
+                    flag = false;
                 }
+            }
+            if (flag) {
+                request(1);
+            }else{
+                showCustomPermissionDialog("请授予存储权限");
             }
         }
     }

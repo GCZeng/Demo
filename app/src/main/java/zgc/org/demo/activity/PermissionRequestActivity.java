@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import zgc.org.demo.R;
 import zgc.org.demo.activity.base.BaseActivity;
+import zgc.org.demo.util.LogUtil;
 import zgc.org.demo.util.PermissionUtil;
 import zgc.org.demo.util.ToastUtil;
 
@@ -69,34 +70,42 @@ public class PermissionRequestActivity extends BaseActivity {
      */
     private void request(int type) {
         String[] permissions = null;
-        int request = 0;
         switch (type) {
             case 1:
                 permissions = new String[]{
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE
                 };
-                request = PERMISSIONS_STORAGE_REQUEST_CODE;
+
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, permissions, PERMISSIONS_STORAGE_REQUEST_CODE);
+                } else {
+                    ToastUtil.showShort("有存储权限");
+                }
+
                 break;
             case 2:
                 permissions = new String[]{
                         Manifest.permission.CAMERA,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.ACCESS_COARSE_LOCATION
                 };
-                request = PERMISSIONS_REQUEST_CODE;
+
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, permissions, PERMISSIONS_REQUEST_CODE);
+                } else {
+                    ToastUtil.showShort("有所有权限");
+                }
                 break;
             default:
                 break;
         }
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, permissions, request);
-        } else {
-            ToastUtil.showShort("有权限");
-        }
-
     }
 
     @Override
@@ -111,28 +120,38 @@ public class PermissionRequestActivity extends BaseActivity {
         List<String> unPermissions = new ArrayList<>();
         if (requestCode == PERMISSIONS_REQUEST_CODE) {
             for (int i = 0; i < permissions.length; i++) {
-                if (grantResults[i] != PackageManager.PERMISSION_GRANTED && !ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i])) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                     unPermissions.add(permissions[i]);
                 }
             }
             //未授权的
             if (unPermissions.contains(Manifest.permission.READ_EXTERNAL_STORAGE) || unPermissions.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                ToastUtil.showShort("请授予存储权限");
-
-                flag = true;
-                PermissionUtil.openAppSetting(PermissionRequestActivity.this);
+                showCustomPermissionDialog("请授予存储权限");
             }
         }
 
         if (requestCode == PERMISSIONS_STORAGE_REQUEST_CODE) {
             for (int i = 0; i < permissions.length; i++) {
                 if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                    ToastUtil.showShort("请授予" + permissions[i] + "权限");
-
-                    flag = true;
-                    PermissionUtil.openAppSetting(PermissionRequestActivity.this);
+                    showCustomPermissionDialog("请授予存储权限");
                 }
             }
+        }
+    }
+
+    private void showCustomPermissionDialog(String title) {
+        LogUtil.d(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) + "");
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            request(1);
+        } else {
+            new AlertDialog.Builder(PermissionRequestActivity.this)
+                    .setTitle(title)
+                    .setNegativeButton("取消", (dialogInterface, i1) -> finish())
+                    .setPositiveButton("去设置", (dialogInterface, i1) -> {
+                        dialogInterface.dismiss();
+                        flag = true;
+                        PermissionUtil.openAppSetting(PermissionRequestActivity.this);
+                    }).show();
         }
     }
 }

@@ -121,7 +121,7 @@ public class PermissionRequestActivity extends BaseActivity {
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         List<String> unPermissions = new ArrayList<>();
         if (requestCode == PERMISSIONS_REQUEST_CODE) {
@@ -131,7 +131,7 @@ public class PermissionRequestActivity extends BaseActivity {
                 }
             }
             //未授权的
-            if (unPermissions.contains(Manifest.permission.READ_EXTERNAL_STORAGE) || unPermissions.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (unPermissions.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE) || unPermissions.contains(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 showCustomPermissionDialog("请授予存储权限");
             } else {
                 request(1);
@@ -147,7 +147,7 @@ public class PermissionRequestActivity extends BaseActivity {
             }
             if (flag) {
                 request(1);
-            }else{
+            } else {
                 showCustomPermissionDialog("请授予存储权限");
             }
         }

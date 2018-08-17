@@ -1,19 +1,11 @@
 package zgc.org.demo.activity;
 
-import android.os.Bundle;
-import android.support.v7.widget.ViewUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import zgc.org.demo.R;
 import zgc.org.demo.activity.base.BaseActivity;
 import zgc.org.demo.bean.event.Event1;

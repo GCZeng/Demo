@@ -87,7 +87,7 @@ public class SudokuHelperActivity extends BaseActivity {
     void click(View view) {
         switch (view.getId()) {
             case R.id.btn_rollback:
-                roolback();
+//                roolback();
                 break;
             default:
                 break;

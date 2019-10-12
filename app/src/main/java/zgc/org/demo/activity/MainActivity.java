@@ -76,6 +76,15 @@ public class MainActivity extends BaseActivity {
                 case 8:
                     gotoActivity(PermissionRequestActivity.class, mBundle);
                     break;
+                case 9:
+                    gotoActivity(WaveActivity.class, mBundle);
+                    break;
+                case 10:
+                    gotoActivity(TagActivity.class, mBundle);
+                    break;
+                case 11:
+                    gotoActivity(TaskDownloadActivity.class, mBundle);
+                    break;
             }
         });
 

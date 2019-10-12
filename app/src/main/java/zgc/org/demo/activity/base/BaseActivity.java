@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private CompositeDisposable mCompositeDisposable = null;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
 
         super.onCreate(savedInstanceState);
@@ -61,7 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         initData();
     }
 
-    private void lh(){
+    private void lh() {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
@@ -158,7 +156,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-    protected void replaceFragment(@IdRes int layout, Fragment fragment) {
+    protected void replaceFragment(int layout, Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(layout, fragment);
         transaction.commit();

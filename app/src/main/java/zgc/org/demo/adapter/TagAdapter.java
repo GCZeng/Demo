@@ -1,6 +1,5 @@
 package zgc.org.demo.adapter;
 
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -10,16 +9,16 @@ import zgc.org.demo.R;
 
 /**
  * Author:Nick
- * Time2018/7/2 11:36
+ * Time2018/6/25 17:06
  * Description
  */
-public class MenuAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-    public MenuAdapter( List<String> data) {
-        super(R.layout.rv_menu_list_item, data);
+public class TagAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+    public TagAdapter( List<String> data) {
+        super(R.layout.rv_tag_item, data);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
-        helper.setText(R.id.tv_title, item);
+        helper.setText(R.id.tv_key, item);
     }
 }

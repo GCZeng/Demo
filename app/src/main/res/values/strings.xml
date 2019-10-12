@@ -15,4 +15,7 @@
     <string name="rxbus">RxBus</string>
     <string name="lh_display_adaptive">刘海屏适配</string>
     <string name="permission_requset">权限申请</string>
+    <string name="wave">波浪</string>
+    <string name="tag">标签流</string>
+    <string name="tast_download">多线程下载</string>
 </resources>

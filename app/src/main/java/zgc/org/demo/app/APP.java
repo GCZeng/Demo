@@ -3,6 +3,8 @@ package zgc.org.demo.app;
 import android.app.Application;
 import android.content.Context;
 
+import com.dpuntu.downloader.DownloadManager;
+
 import zgc.org.demo.util.LogUtil;
 
 /**
@@ -17,6 +19,9 @@ public class APP extends Application {
     public void onCreate() {
         super.onCreate();
         setContext(this.getApplicationContext());
+
+        DownloadManager.initDownloader(this);
+        DownloadManager.setCorePoolSize(1);
 
         LogUtil.init();
     }

@@ -18,4 +18,5 @@
     <string name="wave">波浪</string>
     <string name="tag">标签流</string>
     <string name="tast_download">多线程下载</string>
+    <string name="tast_download2">多线程下载2</string>
 </resources>

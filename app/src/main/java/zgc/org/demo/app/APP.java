@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.dpuntu.downloader.DownloadManager;
+import com.liulishuo.filedownloader.FileDownloader;
 
 import zgc.org.demo.util.LogUtil;
 
@@ -22,6 +23,9 @@ public class APP extends Application {
 
         DownloadManager.initDownloader(this);
         DownloadManager.setCorePoolSize(1);
+
+//        FileDownloader.setupOnApplicationOnCreate(this).commit();
+        FileDownloader.setup(this);
 
         LogUtil.init();
     }

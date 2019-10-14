@@ -85,6 +85,9 @@ public class MainActivity extends BaseActivity {
                 case 11:
                     gotoActivity(TaskDownloadActivity.class, mBundle);
                     break;
+                case 12:
+                    gotoActivity(TaskDownload2Activity.class, mBundle);
+                    break;
             }
         });
 

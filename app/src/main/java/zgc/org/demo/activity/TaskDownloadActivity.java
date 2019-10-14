@@ -114,8 +114,8 @@ public class TaskDownloadActivity extends BaseActivity {
 
         //添加到下载队列
         for (Downloader downloader : taskDownloadList) {
-            DownloadManager.addDownloader(downloader);
-            DownloadManager.start(downloader.getTaskId());
+//            DownloadManager.addDownloader(downloader);
+//            DownloadManager.start(downloader.getTaskId());
             //监听
             DownloadManager.subjectTask(downloader.getTaskId(), new Observer() {
                 @Override

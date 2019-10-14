@@ -39,7 +39,7 @@ public class TaskDownload2Activity extends BaseActivity {
     RecyclerView recyclerview;
 
     public static final String[] URL = {
-
+            "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",
     };
 
     private TaskDownload2Adapter taskDownloadAdapter = null;
